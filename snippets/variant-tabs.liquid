@@ -1,0 +1,287 @@
+<!-- product-tabs begins -->
+<div class="product-tabs">
+  {%- for variant in product.variants -%}
+    <!-- tabset begins -->
+    <div class="tabset{% if current_variant.id != variant.id %} hide{% endif %}" data-variant="{{ variant.id }}">
+      {%- assign show_overview = false -%}
+      {%- assign overview = '' -%}
+      {%- assign show_features = false -%}
+      {%- assign features = '' -%}
+      {%- assign show_specs = false -%}
+      {%- assign show_reviews = false -%}
+      {%- assign show_faq = false -%}
+      {%- assign faqs = '' -%}
+      {%- assign show_manuals = false -%}
+      {%- assign manuals = '' -%}
+      {%- assign show_parts = false -%}
+      {%- assign parts = '' -%}
+      {%- assign show_delivery = false -%}
+      {%- assign delivery = '' -%}
+      {%- assign show_warnings = false -%}
+      {%- assign warnings = '' -%}
+      {%- comment -%}Includes begins {%- endcomment -%}
+      {%- for i in (1..12) -%}
+        {%- capture include_id -%}Includes-{{ i }}{%- endcapture -%}
+        {%- if variant.metafields['global'][include_id] != blank -%}
+          {%- assign show_overview = true -%}
+          {%- capture overview -%}{{ overview | strip  }}<li>{{ variant.metafields['global'][include_id] }}</li>{%- endcapture -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if overview != blank -%}
+        {%- capture overview %}<ul>{{ overview | strip }}</ul>{%- endcapture -%}
+      {%- endif -%}
+      {%- comment -%}Includes ends {%- endcomment -%}
+      {%- comment -%} Overview condition begins {%- endcomment -%}
+      {%- comment -%}
+      {%- if product.description != blank -%}
+        {%- assign show_overview = true -%}
+        {%- capture overview -%}<div class="desc">{{ product.description }}</div>{%- endcapture -%}
+      {%- endif -%}
+      {%- endcomment -%}
+      {%- comment -%} Overview condition ends {%- endcomment -%}
+      {%- comment -%} Features condition begins {%- endcomment -%}
+      {%- for i in (1..10) -%}
+        {%- capture feature_id -%}Features-{{ i }}{%- endcapture -%}
+        {%- if variant.metafields['global'][feature_id] != blank -%}
+          {%- assign show_features = true -%}
+          {%- capture features -%}{{ features | strip }}<li>{{ variant.metafields['global'][feature_id] }}</li>{%- endcapture -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- comment -%} Features condition ends {%- endcomment -%}
+      {%- comment -%} Specifications condition begins {%- endcomment -%}
+      {%- include 'variant-specifications-conditions' -%}
+      {%- comment -%} Specifications condition ends {%- endcomment -%}
+      {%- comment -%} FAQ condition ends {%- endcomment -%}
+      {%- if variant.metafields['global']['FAQ'] != blank -%}
+        {%- assign show_faq = true -%}
+        {%- assign faqs = variant.metafields['global']['FAQ'] -%}
+      {%- endif -%}
+      {%- comment -%} FAQ condition ends {%- endcomment -%}
+      {%- comment -%} Manuals condition ends {%- endcomment -%}
+      {%- assign operations = '' -%}
+      {%- assign sheets = '' -%}
+      {%- for i in (1..2) -%}
+        {%- capture manual_id -%}Operations-Manual-{{ i }}{%- endcapture -%}
+        {%- capture sheet_id -%}Sell-Sheet-{{ i }}{%- endcapture -%}
+        {%- if variant.metafields['global'][manual_id] != blank -%}
+          {%- assign show_manuals = true -%}
+          {%- capture manual_lang -%}products.product.tabs.operation_manual_{{ i }}{%- endcapture -%}
+          {%- capture operations -%}{{ operations | strip }}<li><a href="{{ variant.metafields['global'][manual_id] }}" target="_blank">{{ manual_lang | t }}</a> {{ products.product.tabs.operation_manual_type | t }}</li>{%- endcapture -%}
+        {%- endif -%}
+        {%- if variant.metafields['global'][sheet_id] != blank -%}
+          {%- assign show_manuals = true -%}
+          {%- capture sheet_lang -%}products.product.tabs.sell_sheet_{{ i }}{%- endcapture -%}
+          {%- capture sheets -%}{{ sheets | strip }}<li><a href="{{ variant.metafields['global'][sheet_id] }}" target="_blank">{{ sheet_lang | t }}</a> {{ products.product.tabs.sell_sheet_type | t }}</li>{%- endcapture -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if operations != blank or sheets != blank -%}
+        {%- capture manuals -%}<ul>{{ operations | strip }}{{ sheets | strip }}</ul>{%- endcapture -%}
+      {%- endif -%}
+      {%- comment -%} Manuals condition ends {%- endcomment -%}
+      {%- comment -%} Related Parts condition begins {%- endcomment -%}
+      {%- if variant.metafields['global']['Related-Parts'] != blank -%}
+        {%- assign related_parts = variant.metafields['global']['Related-Parts'] | split: ',' -%}
+        {%- if related_parts.size > 0 -%}
+          {%- for part in related_parts -%}
+            {%- assign values = part | strip | split: '_' -%}
+            {%- assign tab_product_handle = values[0] | default: '' -%}
+            {%- assign variant_id = values[1] | default: '' -%}
+            {%- if tab_product_handle != blank -%}
+              {%- assign tab_product = all_products[tab_product_handle] -%}
+              {%- if variant_id != blank -%}
+                {%- capture variant_id -%}?variant={{ variant_id }}{%- endcapture -%}
+              {%- endif -%}
+              {%- if tab_product != empty -%}
+                {%- capture parts -%}{{ parts | strip }}<li><a href="{{ tab_product.url | append: variant_id }}">{{ tab_product.title }}</a></li>{%- endcapture -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if parts != blank -%}
+            {%- assign show_parts = true -%}
+            {%- capture parts -%}<ul>{{ parts | strip }}</ul>{%- endcapture -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- comment -%} Parts condition ends {%- endcomment -%}
+      {%- comment -%} Delivery time condition begins {%- endcomment -%}
+      {%- if variant.metafields['global']['Delivery-Time'] != blank -%}
+        {%- assign show_delivery = true -%}
+        {%- assign delivery = variant.metafields['global']['Delivery-Time'] -%}
+      {%- endif -%}
+      {%- comment -%} Delivery time condition ends {%- endcomment -%}
+      {%- comment -%} Warnings condition begins{%- endcomment -%}
+      {%- if variant.metafields['global']['Warnings'] -%}
+        {%- assign show_warnings = true -%}
+        {%- assign warnings = variant.metafields['global']['Warnings'] -%}
+      {%- endif -%}
+      {%- comment -%} Warnings condition ends{%- endcomment -%}
+      {%- if show_features -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tfeatures-{{ variant.id }}" checked />
+      {%- endif -%}
+      {%- if show_overview -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="toverview-{{ variant.id }}" />
+      {%- endif -%}
+      {%- if show_specs -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tspecs-{{ variant.id }}" />
+      {%- endif -%}
+      {%- if show_faq -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tfaq-{{ variant.id }}" />
+      {%- endif -%}
+      {%- if show_manuals -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tmanuals-{{ variant.id }}" />
+      {%- endif -%}
+      {%- if show_parts -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tparts-{{ variant.id }}" />
+      {%- endif -%}
+      {%- if show_delivery -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="tdelivery-{{ variant.id }}" />
+      {%- endif -%}
+      <input type="radio" name="tabs-{{ variant.id }}" id="treviews-{{ variant.id }}" />
+      {%- if show_warnings -%}
+        <input type="radio" name="tabs-{{ variant.id }}" id="twarnings-{{ variant.id }}" />
+      {%- endif -%}
+      <!-- tab-titles begins -->
+      <div class="tab-titles">
+        {%- if show_features -%}
+          <label for="tfeatures-{{ variant.id }}">{{ 'products.product.tabs.features' | t }}</label>
+        {%- endif -%}
+        {%- if show_overview -%}
+          <label for="toverview-{{ variant.id }}">{{ 'products.product.tabs.overview' | t }}</label>
+        {%- endif -%}
+        {%- if show_specs -%}
+          <label for="tspecs-{{ variant.id }}">{{ 'products.product.tabs.specs' | t }}</label>
+        {%- endif -%}
+        {%- if show_faq -%}
+          <label for="tfaq-{{ variant.id }}">{{ 'products.product.tabs.faq' | t }}</label>
+        {%- endif -%}
+        {%- if show_manuals -%}
+          <label for="tmanuals-{{ variant.id }}">{{ 'products.product.tabs.manuals' | t }}</label>
+        {%- endif -%}
+        {%- if show_parts -%}
+          <label for="tparts-{{ variant.id }}">{{ 'products.product.tabs.parts' | t }}</label>
+        {%- endif -%}
+        {%- if show_delivery -%}
+          <label for="tdelivery-{{ variant.id }}">{{ 'products.product.tabs.delivery_time' | t }}</label>
+        {%- endif -%}
+        <label for="treviews-{{ variant.id }}">{{ 'products.product.tabs.reviews' | t }}</label>
+        {%- if show_warnings -%}
+          <label for="twarnings-{{ variant.id }}">{{ 'products.product.tabs.warnings' | t }}</label>
+        {%- endif -%}
+      </div>
+      <!-- tab-titles ends -->
+      <!-- tab-panels begins -->
+      <div class="tab-panels">
+        {%- if show_features -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tfeatures-{{ variant.id }}">{{ 'products.product.tabs.features' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tfeatures-{{ variant.id }}">
+            <div class="tab-content">
+              <ul>{{ features }}</ul>
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_overview -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="toverview-{{ variant.id }}">{{ 'products.product.tabs.overview' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="toverview-{{ variant.id }}">
+            <div class="tab-content">
+              {{ overview }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_specs -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tspecs-{{ variant.id }}">{{ 'products.product.tabs.specs' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tspecs-{{ variant.id }}">
+            <div class="tab-content specifications-content">
+              {%- include 'variant-specifications-table' -%}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_faq -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tfaq-{{ variant.id }}">{{ 'products.product.tabs.faq' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tfaq-{{ variant.id }}">
+            <div class="tab-content faq-content">
+              {{ faqs }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_manuals -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tmanuals-{{ variant.id }}">{{ 'products.product.tabs.manuals' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tmanuals-{{ variant.id }}">
+            <div class="tab-content">
+              {{ manuals }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_parts -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tparts-{{ variant.id }}">{{ 'products.product.tabs.parts' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tparts-{{ variant.id }}">
+            <div class="tab-content">
+              {{ parts }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        {%- if show_delivery -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="tdelivery-{{ variant.id }}">{{ 'products.product.tabs.delivery_time' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="tdelivery-{{ variant.id }}">
+            <div class="tab-content delivery-content" data-delivery-time="{{ delivery | strip_html | strip }}">
+              {{ delivery }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+        <!-- htab-title begins -->
+        <div class="htab-title"><label for="treviews-{{ variant.id }}">{{ 'products.product.tabs.reviews' | t }}</label></div>
+        <!-- htab-title ends -->
+        <!-- tab-panel begins -->
+        <div class="tab-panel" data-tab="treviews-{{ variant.id }}" data-product-id="{{ product.id }}" data-review-id="shopify-product-reviews">
+          <div class="tab-content reviews-content">
+           <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+            <div></div>
+          </div>
+        </div>
+        <!-- tab-panel ends -->
+        {%- if show_warnings -%}
+          <!-- htab-title begins -->
+          <div class="htab-title"><label for="twarnings-{{ variant.id }}">{{ 'products.product.tabs.warnings' | t }}</label></div>
+          <!-- htab-title ends -->
+          <!-- tab-panel begins -->
+          <div class="tab-panel" data-tab="twarnings-{{ variant.id }}">
+            <div class="tab-content warning-content">
+              {{ warnings }}
+            </div>
+          </div>
+          <!-- tab-panel ends -->
+        {%- endif -%}
+      </div>
+      <!-- tab-panels ends -->
+    </div>
+    <!-- tabset ends -->
+  {%- endfor -%}
+</div>
+<!-- product-tabs ends -->

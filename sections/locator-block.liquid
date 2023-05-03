@@ -1,0 +1,45 @@
+<!-- locator-container begins -->
+<section class="locator-container" data-section-id="{{ section.id }}" data-section-type="locator-block">
+  <!-- container begins -->
+  <div class="page-width">
+    <!-- locator-box begins -->
+    <div class="locator-box">
+      <!-- locator-desc begins -->
+      <div class="locator-desc">
+        <p>{{ section.settings.title }}</p>
+        <div class="text">{{ section.settings.body }}</div>
+      </div>
+      <!-- locator-desc ends -->
+    </div>
+    <!-- locator-box ends -->
+  </div>
+  <!-- container ends -->
+</section>
+<!-- locator-container ends -->
+
+{% schema %}
+  {
+    "name": "Locator block",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Need it today?"
+      },
+      {
+        "type": "richtext",
+        "id": "body",
+        "label": "Body",
+        "default": "<p>Find a distributor near you.</p>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Locator block",
+        "category": "Information",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

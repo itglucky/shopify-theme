@@ -1,0 +1,447 @@
+{%- assign social_icons = false -%}
+{%- if
+  settings.social_twitter_link != blank
+  or settings.social_facebook_link != blank
+  or settings.social_pinterest_link != blank
+  or settings.social_instagram_link != blank
+  or settings.social_youtube_link != blank
+  or settings.social_linkedin_link != blank
+  or settings.social_vimeo_link != blank
+%}
+  {%- assign social_icons = true -%}
+{%- endif -%}
+<!-- footer begins -->
+<footer id="footer" class="footer" data-section-id="{{ section.id }}" data-section-type="footer">
+ <!-- footer-container begins -->
+  <section class="footer-container">
+    <!-- container begins -->
+    <div class="page-width">
+      <div class="row">
+        <div class="col-md-8">
+          <!-- footer-left begins -->
+          <div class="footer-left">
+            {%- if section.settings.footer_logo != blank -%}
+              <!-- footer-logo begins -->
+              <div class="footer-logo">
+                <img src="{{ section.settings.footer_logo | img_url: 'medium' }}" alt="{{ shop.name }}" />
+              </div>
+              <!-- footer-logo ends -->
+            {%- endif -%}
+            <!-- footer-contact begins -->
+            <div class="footer-contact">
+              {%- if section.settings.address != blank -%}
+                <!-- address begins -->
+                <address>
+                  {{ section.settings.address }}
+                </address>
+                <!-- address ends -->
+              {%- endif -%}
+              {%- if section.settings.map_link != blank -%}
+                <!-- footer-map begins -->
+                <div class="footer-map">
+                  <a href="{{ section.settings.map_link }}">{{ 'layout.footer.map' | t }}</a>
+                </div>
+                <!-- footer-map ends -->
+              {%- endif -%}
+              <!-- footer-phone begins -->
+              {%- if section.settings.phone_numbers != blank -%}
+                <div class="footer-phone">
+                  {{ section.settings.phone_numbers }}
+                </div>
+              <!-- footer-phone ends -->
+              {%- endif -%}
+              {%- if section.settings.email != blank -%}
+                <!-- footer-email begins -->
+                <div class="footer-email">
+                  <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+                </div>
+                <!-- footer-email ends -->
+              {%- endif -%}
+            </div>
+            <!-- footer-contact ends -->
+            {%- if section.blocks.size > 0 -%}
+              {%- assign counter = 0 -%}
+              <!-- footer-divisions begins -->
+              <div class="footer-divisions">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'division_image_block' and block.settings.division_image != blank -%}
+                    {%- if counter == 0 -%}
+                      {%- assign counter = counter | plus: 1 -%}
+                      <div class="text">{{ 'layout.footer.division' | t }}</div>
+                    {%- endif -%}
+                    <a {% if block.settings.division_image_url != blank %}href="{{ block.settings.division_image_url }}"{% endif %} class="itg_division_img" target="_blank"><img src="{{ block.settings.division_image | img_url: '200x' }}"  alt="" /></a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <!-- footer-divisions ends -->
+            {%- endif -%}
+          </div>
+          <!-- footer-left ends -->
+        </div>
+        <div class="col-md-16">
+          <!-- footer-right begins -->
+          <div class="footer-right">
+            <!-- footer-top begins -->
+            <div class="footer-top">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- footer-info begins -->
+                  <div class="footer-info">
+                    <h4>{{ 'layout.footer.catalog.title' | t }}</h4>
+                    <p>{{ 'layout.footer.catalog.body' | t }}</p>
+                    {%- if section.settings.show_download_button == true -%}
+                      <p><a href="{{ section.settings.download_button_url }}" class="itg_btn" target="_blank">{{ 'layout.footer.catalog.button' | t }}</a></p>
+                    {%- endif -%}
+                    {%- if section.settings.show_request_pricing_catalog_url == true -%}
+                      <p>{{ 'layout.footer.catalog.or' | t }} <a href="{{ section.settings.request_pricing_catalog_url }}">{{ 'layout.footer.catalog.link' | t }}</a></p>
+                    {%- endif -%}
+                  </div>
+                  <!-- footer-info ends -->
+                </div>
+                <div class="col-md-12">
+                  <!-- footer-connect begins -->
+                  <div class="footer-connect">
+                    {%- if section.settings.show_social -%}
+                      <h4>{{ 'layout.footer.social.title' | t }}</h4>
+                      <p>{{ 'layout.footer.social.body' | t }}</p>
+                      <div class="social-icons">                        
+                          <ul class="footer__list-social list-unstyled list-social" role="list">
+                            {%- if settings.social_twitter_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_twitter_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-twitter' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_facebook_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_facebook_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-facebook' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_linkedin_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_linkedin_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-linkedin' -%}
+                                  <span class="visually-hidden">Linked In</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_pinterest_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_pinterest_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-pinterest' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_instagram_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_instagram_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-instagram' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_tiktok_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_tiktok_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-tiktok' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_tumblr_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_tumblr_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-tumblr' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_snapchat_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_snapchat_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-snapchat' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_youtube_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_youtube_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-youtube' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                            {%- if settings.social_vimeo_link != blank -%}
+                              <li class="list-social__item">
+                                <a href="{{ settings.social_vimeo_link }}" class="link list-social__link" target="_blank">
+                                  {%- render 'icon-vimeo' -%}
+                                  <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+                                </a>
+                              </li>
+                            {%- endif -%}
+                          </ul>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  <!-- footer-connect ends -->
+                </div>
+              </div>
+            </div>
+            <!-- footer-top ends -->
+            <!-- footer-center begins -->
+            <div class="footer-center clearfix"> 
+              <!-- footer-memberships begins -->
+              <div class="footer-memberships">
+                {%- if section.blocks.size > 0 -%}
+                  {%- assign counter = 0 -%}
+                  {%- assign size_counter = 0 -%}
+                  {%- for block in section.blocks -%}
+                    {%- assign size_counter = size_counter | plus: 1 -%}
+                    {%- if block.type == 'membership_image_block' and block.settings.membership_image != blank -%}
+                      {%- if counter == 0 -%}
+                        {%- assign counter = counter | plus: 1 -%}
+                        <span class="text">{{ 'layout.footer.membership' | t }}</span>
+                        <span class="images">
+                      {%- endif -%}
+                          <img src="{{ block.settings.membership_image | img_url: 'medium' }}"  alt="" />
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if size_counter == section.block.size and counter > 0 -%}
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+              <!-- footer-memberships ends -->
+              <!-- footer-safety begins -->
+              <div class="footer-safety">
+                {%- if section.blocks.size > 0 -%}
+                  {%- assign counter = 0 -%}
+                  {%- assign size_counter = 0 -%}
+                  {%- for block in section.blocks -%}
+                    {%- assign size_counter = size_counter | plus: 1 -%}
+                    {%- if block.type == 'safety_image_block' and block.settings.safety_image != blank -%}
+                      {%- if counter == 0 -%}
+                        {%- assign counter = counter | plus: 1 -%}
+                        <span class="text">{{ 'layout.footer.safety' | t }}</span>
+                        <span class="images">
+                      {%- endif -%}
+                          <img src="{{ block.settings.safety_image | img_url: 'medium' }}"  alt="" />
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if size_counter == section.block.size and counter > 0 -%}
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+              <!-- footer-safety ends -->
+            </div>
+            <!-- footer-center ends -->
+            <!-- footer-bottom begins -->
+            <div class="footer-bottom"> 
+              <div class="row">
+                <div class="col-md-16">
+                  {%- if section.settings.copyrights != blank -%}
+                  <!-- copyrights begins -->
+                  <div class="copyrights">
+                   <p> All contents &copy; {{ 'now' | date: "%Y" }} {{ section.settings.copyrights }}</p>
+                  </div>
+                  <!-- copyrights ends -->
+                  {%- endif -%}
+                </div>
+                <div class="col-md-8">
+                  {%- if section.settings.show_credit_cards -%}
+                    <!-- footer-cards begins -->
+                    <div class="footer-cards">
+                      <img src="{{ 'credit-cards.png' | asset_url }}" alt="{{ 'layout.footer.cards' | t }}" />
+                    </div>
+                    <!-- footer-cards ends -->
+                  {%- endif -%}
+                </div>
+                <div class="col-md-24">
+                  <!-- footer-links begins -->
+                  <div class="footer-links">
+                    {%- if linklists.footer.links.size > 0 -%}
+                      <ul class="footer-links visible-lg visible-md">
+                        {%- for link in linklists.footer.links -%}
+                          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                  <!-- footer-links ends -->
+                </div>
+              </div>
+            </div>
+            <!-- footer-bottom ends -->
+          </div>
+          <!-- footer-right ends -->
+        </div>
+      </div>
+    </div>
+    <!-- container ends -->
+  </section>
+  <!-- footer-container ends -->
+</footer>
+<!-- footer-ends -->
+<!-- cookieconsent-modal begins -->
+<div id="cookieconsent-modal" class="cookieconsent-modal hide">
+  <!-- cookieconsent-content begins -->
+  <div class="cookieconsent-content">
+    <p>{{ 'layout.cookieconsent.description' | t }}</p>
+    <button class="itg_btn btn cookieconsent-dismiss">{{ 'layout.cookieconsent.button_text' | t }}</button>
+  </div>
+  <!-- cookieconsent-content ends -->
+</div>
+<!-- cookieconsent-modal ends -->
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Newsletter Form Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_newsletter_form",
+        "label": "Show Newsletter Form",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_form_title",
+        "label": "Newsletter Form Title",
+        "default": "Stay Informed"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_form_body",
+        "label": "Newsletter Form Body",
+        "default": "Receive special offers and updates on new products"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social",
+        "default": false,
+        "label": "t:sections.footer.settings.show_social.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer Logo"
+      },
+      {
+        "type": "header",
+        "content": "Contact Information"
+      },
+      {
+        "type": "richtext",
+        "id": "address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "map_link",
+        "label": "Map Link"
+      },
+      {
+        "type": "richtext",
+        "id": "phone_numbers",
+        "label": "Phone Numbers"
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "E-mail Address"
+      },
+      {
+        "type": "header",
+        "content": "Download Catalog Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_download_button",
+        "label": "Show Download Button",
+        "default": true
+      },
+      {
+        "type": "url",
+        "id": "download_button_url",
+        "label": "Download URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_request_pricing_catalog_url",
+        "label": "Show Request Pricing Catalog Link",
+        "default": true
+      },
+      {
+        "type": "url",
+        "id": "request_pricing_catalog_url",
+        "label": "Request Pricing Catalog URL"
+      },
+      {
+        "type": "header",
+        "content": "Footer Bottom"
+      },
+      {
+        "type": "text",
+        "id": "copyrights",
+        "label": "Copyrights"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_credit_cards",
+        "label": "Show credit cards",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "membership_image_block",
+        "name": "Membership Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "membership_image",
+            "label": "Image"
+          }
+        ]
+      },
+      {
+        "type": "safety_image_block",
+        "name": "Safety Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "safety_image",
+            "label": "Image"
+          }
+        ]
+      },
+      {
+        "type": "division_image_block",
+        "name": "Division Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "division_image",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "division_image_url",
+            "label": "URL"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

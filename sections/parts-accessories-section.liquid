@@ -1,0 +1,68 @@
+<div class="itg_part_accessories_wrapper">
+  <div class="page-width">
+    <div class="itg_section_heading">
+      <h3>{{ section.settings.heading }}</h3>
+    </div>
+    <div class="itg_part_accessories_block">
+      {% for block in section.blocks %}
+        <div class="itg_part_inner_div">
+            <a href="{{ block.settings.button_link }}"><img src="{{ block.settings.img | img_url:'300x' }}" alt="{{ block.settings.itg_heading }}"></a>
+            <h4><a href="{{ block.settings.button_link }}">{{ block.settings.itg_heading }}</a></h4>
+            <a href="{{ block.settings.button_link }}" class="itg_btn">{{ block.settings.button_text }}</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Parts & Accessories2",
+    "settings": [
+      {
+        "type":"text",
+        "id": "heading",
+        "label": "Heading"
+      }
+    ],
+    "blocks":[
+      {
+        "name": "Block",
+        "type": "block",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "img",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "itg_heading",
+            "label": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Parts & Accessories2"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

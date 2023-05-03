@@ -1,0 +1,118 @@
+<div class="itg_custom_logo_wrpr">
+  <div class="page-width">
+    {% if section.settings.img_logo !=blank %}
+      <div class="itg_logo_section">
+        <a class="itg_logo_link" href="{{ section.settings.logo_url }}" target="_blank"><span><img src="{{ section.settings.img_logo | img_url:'master' }}" alt="logo"></span></a>
+      </div>
+    {% endif %}
+    {% if section.settings.content !=blank %}
+        <div class="itg_content_sectn">
+          {{ section.settings.content }}
+        </div>
+    {% endif %}
+    <div class="itg_image_section">
+      {% if  section.settings.img_first !=blank %}
+        <div class="itg_first_image">
+          <img src="{{ section.settings.img_first | img_url:'master' }}" alt="image">   
+        </div>
+        {% endif %}
+      {% if  section.settings.img_second !=blank %}
+        <div class="itg_second_image">
+         <img src="{{ section.settings.img_second | img_url:'master' }}" alt="image">
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<style>
+.itg_content_sectn p {
+    font-size: 18px;
+    line-height: 1.67;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #000;
+    letter-spacing: normal;
+}
+.itg_content_sectn p a {
+    color: #d52b1e;
+    font-family: "Eurostile-Bol","Eurostile-Reg","Calibri","Trebuchet MS",Helvetica,Arial,Sans-serif;
+    transition: .5s;
+    text-decoration: none;
+}
+.itg_content_sectn p a:hover{
+    color: #991e14;
+}
+.itg_image_section {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.itg_first_image {
+    width: calc(50.0% - 15px);
+    text-align: center;
+} 
+.itg_first_image img {
+    max-width: 100%;
+}
+.itg_second_image {
+    width: calc(50.0% - 15px);
+    text-align: center;
+} 
+.itg_second_image img {
+    max-width: 100%;
+} 
+.itg_custom_logo_wrpr {
+    padding-bottom: 30px;
+} 
+.itg_logo_section img {
+    max-width: 100%;
+}  
+.itg_logo_section {
+    width: 100%;
+    display: flex;
+}  
+</style>
+{% schema %}
+  {
+    "name": "Custom Logo With Text",
+    "settings": [
+      {
+        "type":"image_picker",
+        "id":"img_logo",
+        "label":"Select Logo Image"
+      },
+      {
+        "type":"url",
+        "id":"logo_url",
+        "label":"Logo URL"
+      },
+      {
+        "type":"richtext",
+        "id":"content",
+        "label":"Content"
+      },
+      {
+        "type":"image_picker",
+        "id":"img_first",
+        "label":"Select Image First"
+      },
+      {
+        "type":"image_picker",
+        "id":"img_second",
+        "label":"Select Image Second"
+      }
+    ],
+    "presets":[
+      {
+        "name": "Custom Logo With Text" 
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

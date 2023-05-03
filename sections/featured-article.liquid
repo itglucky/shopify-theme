@@ -1,0 +1,161 @@
+{%- assign is_article = section.settings.is_article -%}
+{%- assign show = false -%}
+{%- if is_article != blank -%}
+  {%- assign article = articles[section.settings.article] -%}
+  {%- if article != blank -%}
+    {%- assign show = true -%}
+    {%- assign title = article.title -%}
+    {%- assign url = article.url -%}
+    {%- if article.image != blank -%}
+      {%- assign image = article.image | img_url: "350x" -%}
+    {%- endif -%}
+    {%- if article.excerpt != blank -%}
+      {%- assign author = article.excerpt -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- else -%}
+  {%- if section.settings.block_title != blank -%}
+    {%- assign show = true -%}
+    {%- assign title = section.settings.block_title -%}
+    {%- assign url = section.settings.block_url -%}
+    {%- if section.settings.block_image != blank -%}
+      {%- assign image = section.settings.block_image | img_url: "350x" -%}
+    {%- endif -%}
+    {%- assign author = section.settings.author -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if show -%}
+  <!-- education-container begins -->
+  <section class="education-container" data-section-id="{{ section.id }}" data-section-type="featured-article">
+    <!-- container begins -->
+    <div class="page-width">
+      <!-- education-title begins -->
+      <div class="education-title visible-xs visible-sm">
+        <h3>{{ section.settings.title }}</h3>
+      </div>
+      <!-- education-title ends -->
+      <!-- article-box begins -->
+      <div class="article-box">
+        <div class="row">
+          {%- if image -%}
+            <div class="col-sm-8">
+              <!-- education-title begins -->
+              <div class="education-title visible-md visible-lg">
+                <h3>{{ section.settings.title }}</h3>
+              </div>
+              <!-- education-title ends -->
+              <!-- article-image begins -->
+              <div class="article-image">
+                <a href="{{ url }}"><img src="{{ image }}" alt="{{ title }}" /></a>
+              </div>
+              <!-- article-image ends -->
+            </div>
+          {%- endif -%}
+          <div class="col-sm-16">
+            <!-- article-detail begins -->
+            <div class="article-detail">
+              <!-- article-title begins -->
+              <div class="article-title">
+                <h3>
+                  {%- if url != blank -%}
+                    <a href="{{ url }}">{{ title }}</a>
+                  {%- else  -%}
+                    {{ title }}
+                  {%- endif -%}
+                </h3>
+              </div>
+              <!-- article-title ends -->
+              {%- if author != blank -%}
+                <!-- article-author begins -->
+                <div class="article-author">
+                  {{ author }}
+                </div>
+                <!-- article-author ends -->
+              {%- endif -%}
+              <!-- article-desc begins -->
+              <div class="article-desc">
+                {%- if is_article -%}
+                  <p>{{ article.content | strip_html | truncatewords: 100 }} <a href="{{ article.url }}" class="read-more">{{ 'blogs.article.read_more' | t }}</a></p>
+                {%- else -%}
+                  {{ section.settings.block_content }}
+                {%- endif -%}
+              </div>
+              <!-- article-desc ends -->
+              {%- if section.settings.link != blank -%}
+                <div class="all-links">
+                  {{ section.settings.link }}
+                </div>
+              {%- endif -%}
+            </div>
+            <!-- article-detail ends -->
+          </div>
+        </div>
+      </div>
+      <!-- article-box ends -->
+    </div>
+    <!-- container ends -->
+  </section>
+  <!-- education-container ends -->
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Featured Article",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Education Library"
+      },
+      {
+        "type": "checkbox",
+        "id": "is_article",
+        "label": "Is Article?",
+        "default": true
+      },
+      {
+        "type": "article",
+        "id": "article",
+        "label": "Article"
+      },
+      {
+        "type": "richtext",
+        "id": "link",
+        "label": "Category link"
+      },
+      {
+        "type": "text",
+        "id": "block_title",
+        "label": "Block Title"
+      },
+      {
+        "type": "url",
+        "id": "block_url",
+        "label": "Block URL"
+      },
+      {
+        "type": "image_picker",
+        "id": "block_image",
+        "label": "Block Image"
+      },
+      {
+        "type": "richtext",
+        "id": "block_content",
+        "label": "Block Content"
+      },
+      {
+        "type": "text",
+        "id": "author",
+        "label": "Author"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Article",
+        "category": "Article"
+      }
+    ]
+  }
+{% endschema %}

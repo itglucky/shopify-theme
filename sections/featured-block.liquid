@@ -1,0 +1,95 @@
+{%- if section.blocks.size > 0 -%}
+  <!-- featured-container begins -->
+  <section class="featured-container" data-section-id="{{ section.id }}" data-section-type="featured-block">
+    {%- for block in section.blocks -%}
+      <!-- featured-box begins -->
+      <div class="featured-box" {%- if block.settings.image -%} style="background-image: url('{{ block.settings.image | img_url: '800x' }}');"{%- endif -%}>
+        <!-- container begins -->
+        <div class="container">
+          <!-- box-panel begins -->
+          <div class="box-panel">
+            <!-- box-title begins -->
+            <div class="box-title"><h3>{{ block.settings.title }}</h3></div>
+            <!-- box-title ends -->
+            <!-- box-desc begins -->
+            <div class="box-desc">
+              {{ block.settings.body }}
+            </div>
+            <!-- box-desc ends -->
+            {%- if block.settings.show_button -%}
+              <!-- box-link begins -->
+              <div class="box-link">
+                <a href="{{ block.settings.button_link }}" class="itg_btn">{{ block.settings.button_text }}</a>
+              </div>
+              <!-- box-link ends -->
+            {%- endif -%}
+          </div>
+          <!-- box-panel begins -->
+        </div>
+        <!-- container ends -->
+      </div>
+      <!-- featured-item ends -->
+    {%- endfor -%}
+  </section>
+  <!-- featured-container ends -->
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Featured block",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "featured_block",
+        "name": "Featured block",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "For Arborists"
+          },
+          {
+            "type": "richtext",
+            "id": "body",
+            "label": "Body",
+            "default": "<p>Learn how AirSpade saves time and helps you deliver the best results from your work.</p>"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_button",
+            "label": "Show button"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text",
+            "default": "Learn More"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured block",
+        "category": "Image",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "featured_block"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

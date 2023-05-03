@@ -1,0 +1,83 @@
+<div class="page-width">
+  <div class="itg_block-with-image {% if section.settings.itg_border == true %} itg_top_border {% endif %}">
+   {% for block in section.blocks %} 
+     <div class="itg_block_main {% if block.settings.content_position =='top'%}itg_top {% elsif block.settings.content_position =='bottom'%} itg_bottom{% else %}{% endif %}">
+     {% if block.settings.content != blank %}
+    <div class="itg_content_block">
+      {% if block.settings.content_url != blank %}<a href="{{ block.settings.content_url }}" target="_blank">{% endif %}<h3>{{block.settings.content }}</h3>{% if block.settings.content_url != blank %}</a>{% endif %}
+    </div>
+       {% endif %}
+     {% if block.settings.image_picker != blank %}
+    <div class="itg_image_block">
+      {% if block.settings.content_url != blank %}<a href="{{ block.settings.content_url }}" target="_blank">{% endif %}<img src="{{ block.settings.image_picker | img_url:'master' }}" alt="image">{% if block.settings.content_url != blank %}</a>{% endif %}
+    </div>
+       {% endif %}
+     </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block Image With Link",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "itg_border",
+        "label": "Show Top Border",
+        "default": false
+      }
+    ],
+    "blocks":[
+      {
+        "type":"blocks",
+         "name":"blocks",
+        "settings": [
+          {
+            "type":"text",
+            "id":"content",
+            "label":"Content"
+          },
+          {
+            "type":"url",
+            "id":"content_url",
+            "label":"Content Url"
+          },
+          {
+            "type":"image_picker",
+            "id":"image_picker",
+            "label":"Image"
+          },
+          {
+            "type": "select",
+            "id": "content_position",
+             "label":"Select Position",
+            "options": [
+              {
+                "value":"top",
+                "label":"Top"
+              },
+              {
+                "value":"bottom",
+                "label":"Bottom"
+              }
+            ],
+            "default": "top"
+          }
+          
+        ]
+        
+      }
+    ],
+    "presets":[
+      {
+        "name":"Block Image With Link"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

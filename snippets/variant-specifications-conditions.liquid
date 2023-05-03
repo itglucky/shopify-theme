@@ -1,0 +1,47 @@
+{%- assign show_inlet = false -%}
+{%- assign show_min_compressor = false -%}
+{%- assign show_soil_excavation = false -%}
+{%- assign show_vacuum_hose = false -%}
+{%- assign show_noise_level = false -%}
+{%- assign show_vacuum_flow = false -%}
+{%- assign show_vacuum_lift = false -%}
+{%- assign show_dimensions = false -%}
+{%- assign show_weight = false -%}
+
+{%- for tvariant in product.variants -%}
+  {%- if tvariant.metafields['global']['Inlet-Connection'] != blank -%}
+    {%- assign show_inlet = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Min-Compressor-Required'] != blank -%}
+    {%- assign show_min_compressor = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Soil-Excavation-Rate'] != blank -%}
+    {%- assign show_soil_excavation = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Vaccum-Hose-ID'] != blank -%}
+    {%- assign show_vacuum_hose = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Noise-Level'] != blank -%}
+    {%- assign show_noise_level = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Vacuum-Flow'] != blank -%}
+    {%- assign show_vacuum_flow = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Vacuum-Lift'] != blank -%}
+    {%- assign show_vacuum_lift = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Each-Weight'] != blank -%}
+    {%- assign show_weight = true -%}
+    {%- assign show_specs = true -%}
+  {%- endif -%}
+  {%- if tvariant.metafields['global']['Each-Length'] != blank and tvariant.metafields['global']['Each-Width'] != blank and tvariant.metafields['global']['Each-Height'] -%}
+    {%- assign show_dimensions = true -%}
+  {%- endif -%}
+{%- endfor -%}

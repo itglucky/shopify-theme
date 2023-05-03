@@ -1,0 +1,155 @@
+<div class="itg_part_number_wrapper">
+  <div class="page-width">
+    <div class="itg_tab_list">      
+          <span data-id="allpax-part-number" class="itg_tab_head active_tabs">ALLPAX PART NUMBERS</span>
+          <span data-id="allen-part-number" class="itg_tab_head">ALLEN PART NUMBERS</span>
+      </div> 
+    <div class="itg_tab_details">
+      <div class="itg_tab_content itg_active_content" data-id="allpax-part-number">       
+    <div class="itg_part_number_main_div">
+      <ul>
+        <li>
+          <div class="itg_part_referance_div itg_prior_sku">Prior to 1999</div>
+          <div class="itg_part_referance_div itg_old_sku">1999 - 2015</div>
+          <div class="itg_part_referance_div itg_current_sku">	2015 - Present</div>
+          <div class="itg_part_referance_div itg_description">Description</div>
+        </li>
+      {% for block in section.blocks %}
+        {% if block.type == 'allpax-part-number' %}
+          {% assign product = block.settings.itg_product %}
+     {% comment %}  {% assign current_variant = product.selected_or_first_available_variant %}
+<span class="variant-sku">{{ current_variant.sku }}</span>{% endcomment %}
+
+      
+       {%- for variant in product.variants -%}
+         {%- assign var_sku = variant.sku -%}
+         {%- assign var_id = variant.id -%}
+         {%- assign show_overview = false -%}
+         {%- assign overview = '' -%}
+          {%- for i in (1..12) -%}
+            {%- capture include_id -%}Includes-{{ i }}{%- endcapture -%}
+              {%- if variant.metafields['global'][include_id] != blank -%}
+                {%- assign show_overview = true -%}
+                {%- capture overview -%}{{ overview | strip  }}{{ variant.metafields['global'][include_id] }}{%- endcapture -%}
+            {%- endif -%}
+        {%- endfor -%}
+        {%- if overview != blank -%}
+            {%- capture overview %}{{ overview | strip }}{%- endcapture -%}
+        {%- endif -%}
+        <li>
+          <div class="itg_part_referance_div itg_prior_sku">
+           {% if variant.metafields.custom.prior_to_1999 != blank %}
+             {{ variant.metafields.custom.prior_to_1999 }}
+           {% else %}
+             --
+           {% endif %}
+          </div>
+          <div class="itg_part_referance_div itg_old_sku">
+           {% if variant.metafields.custom.old_sku_1999_2015 != blank %}
+             {{ variant.metafields.custom.old_sku_1999_2015 }}
+           {% else %}
+             --
+           {% endif %}
+             
+           </div>
+          <div class="itg_part_referance_div itg_current_sku"><a href="{{ shop.url }}{{ product.url }}?variant={{ var_id }}/">	{{ var_sku }} </a></div>
+          <div class="itg_part_referance_div itg_description"><a href="{{ shop.url }}{{ product.url }}?variant={{ var_id }}/">{{ variant.metafields.custom.description }}</a></div>
+          
+        </li>
+        {% endfor %}
+      
+           
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+      </div>
+       <div class="itg_tab_content itg_allen_part_number" data-id="allen-part-number">  
+         <div class="itg_part_number_main_div">
+      <ul>
+        <li>
+          <div class="itg_part_referance_div itg_prior_sku">2012 - 2015</div>
+          <div class="itg_part_referance_div itg_old_sku">2016 - Present</div>
+          <div class="itg_part_referance_div itg_description">Description</div>
+        </li>
+      {% for block in section.blocks %}
+        {% if block.type == 'allen-part-number' %}
+          {% assign product = block.settings.itg_product1 %}
+     {% comment %}  {% assign current_variant = product.selected_or_first_available_variant %}
+<span class="variant-sku">{{ current_variant.sku }}</span>{% endcomment %}
+
+      
+       {%- for variant in product.variants -%}
+         {%- assign var_sku = variant.sku -%}
+         {%- assign var_id = variant.id -%}
+         {%- assign show_overview = false -%}
+         {%- assign overview = '' -%}
+          {%- for i in (1..12) -%}
+            {%- capture include_id -%}Includes-{{ i }}{%- endcapture -%}
+              {%- if variant.metafields['global'][include_id] != blank -%}
+                {%- assign show_overview = true -%}
+                {%- capture overview -%}{{ overview | strip  }}{{ variant.metafields['global'][include_id] }}{%- endcapture -%}
+            {%- endif -%}
+        {%- endfor -%}
+        {%- if overview != blank -%}
+            {%- capture overview %}{{ overview | strip }}{%- endcapture -%}
+        {%- endif -%}
+        <li>
+          <div class="itg_part_referance_div itg_prior_sku">
+           {% if variant.metafields.custom.allen_old_sku_2012_2015 != blank %}
+             {{ variant.metafields.custom.allen_old_sku_2012_2015 }}
+           {% else %}
+             --
+           {% endif %}
+          </div>
+          <div class="itg_part_referance_div itg_current_sku"><a href="{{ shop.url }}{{ product.url }}?variant={{ var_id }}/">	{{ var_sku }} </a></div>
+          <div class="itg_part_referance_div itg_description"><a href="{{ shop.url }}{{ product.url }}?variant={{ var_id }}/">{{ variant.metafields.custom.description }}</a></div>
+          
+        </li>
+        {% endfor %}
+      
+           
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+       </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Part Number Reference",
+    "settings": [],
+    "blocks":[
+      {
+        "type": "allpax-part-number",
+        "name": "Allpax Part Number",
+        "settings": [
+          {
+            "type": "product",
+            "id": "itg_product",
+            "label": "Product"
+          }
+        ]
+      },
+      {
+        "type": "allen-part-number",
+        "name": "Allen Part Number",
+        "settings": [
+          {
+            "type": "product",
+            "id": "itg_product1",
+            "label": "Product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

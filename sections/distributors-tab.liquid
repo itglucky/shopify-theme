@@ -1,0 +1,142 @@
+<div class="itg_distribute_container">
+  <div class="page-width">
+    <div class="itg_tab_content_wrpr">
+      <div class="itg_tab_list">      
+          <span data-id="local" class="itg_tab_head active_tabs">Local</span>
+          <span data-id="national" class="itg_tab_head">National</span> 
+          <span data-id="international" class="itg_tab_head">International</span>
+      </div> 
+      <div class="itg_tab_details">
+          {% for block in section.blocks %}  
+             {% if block.settings.content != blank %}
+                <div class="itg_tab_content itg_active_content" data-id="local">          
+                    {{ block.settings.content }}        
+                </div>
+              {% endif %}  
+          {% endfor %}    
+          <div class="itg_tab_content" data-id="national">
+             <div class="itg_flex_container">
+               {% for block in section.blocks %} 
+                   {% if  block.settings.img != blank %}
+                      <div class="itg_image_table">
+                       {% if block.settings.img_url != blank %} <a href="{{ block.settings.img_url }}" target="_blank">{% endif %}<img src="{{ block.settings.img |img_url:'master' }}">{% if block.settings.img_url != blank %}</a>{% endif %}  
+                      </div>
+                   {% endif %} 
+                {% endfor %}  
+              </div>
+          </div>  
+          <div class="itg_tab_content" data-id="international">          
+              {% for block in section.blocks %}
+                {% if  block.settings.image != blank %}
+                <div class="itg_flex_wrpr">            
+                  <div class="itg_boxes">            
+                      <div class="itg_box"> 
+                        {% if  block.settings.image_link != blank %}<a href="{{ block.settings.image_link }}" target="_blank">{% endif %}<img class="itg_image_link" src="{{ block.settings.image |img_url:'240x150' }}">{% if  block.settings.image_link != blank %}</a>{% endif %}  
+                      </div>               
+                  </div>
+                {% endif %}
+                {% if  block.settings.heading != blank %}
+                 <div class="itg_boxes">        
+                    <div class="itg_box">
+                       {{ block.settings.heading }}
+                    </div>
+                 </div>
+                {% endif %}
+                {% if  block.settings.text != blank %}
+                 <div class="itg_boxes">            
+                    <div class="itg_box">
+                       {{ block.settings.text }}
+                    </div>           
+                 </div>
+                {% endif %}
+                {% if  block.settings.img_flag != blank %}
+                 <div class="itg_boxes">            
+                    <div class="itg_box">
+                     <img class="itg_image_flag" src="{{ block.settings.img_flag |img_url:'200x150' }}">
+                    </div>             
+                 </div>
+               </div>   
+                {% endif %}                  
+               {% endfor %}                       
+            </div>
+        </div> 
+      </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Distributors Tab",
+    "settings": [],
+    "blocks":[
+     {
+       "type":"local",
+       "name":"local",
+       "settings":[
+         {
+           "type":"richtext",
+           "id":"content",
+           "label":"Content"
+         }
+       ]
+     },
+      {
+        "type":"national",
+        "name":"national",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img",
+            "label":"Select Image"
+          },
+          {
+            "type":"url",
+            "id":"img_url",
+            "label":"Image URL"
+          }
+        ]
+      },
+      {
+        "type":"international",
+        "name":"international",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"image",
+            "label":"Select Image"
+          },
+          {
+            "type":"url",
+            "id":"image_link",
+            "label":"Image URL"
+          },
+          {
+            "type":"richtext",
+            "id":"heading",
+            "label":"Heading"
+          },
+          {
+            "type":"richtext",
+            "id":"text",
+            "label":"Text"
+          },
+          {
+            "type":"image_picker",
+            "id":"img_flag",
+            "label":"Select Country Flag Image"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name": "Distributors Tab"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

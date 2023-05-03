@@ -1,0 +1,100 @@
+<!-- breadcrumbs begins -->
+<div id="breadcrumbs" class="breadcrumbs">
+  <div class="page-width">
+  <!-- breadcrumb begins -->
+  <ul class="breadcrumb">
+    <li><a href="{{ shop.url }}">Home</a></li>
+    {%- if template contains 'page' -%}
+      {%- assign menu = linklists.new-main-menu -%}
+      {%- assign active = false -%}
+      {%- if menu.links.size > 0 -%}
+        {%- for link in menu.links -%}
+          {%- if link.active -%}
+            {%- assign active = true -%}
+            <li>{{ page_title }}</li>
+          {%- endif -%}
+          {%- if link.child_active -%}
+            {%- assign active = true -%}
+            <li>{{ link.title | link_to: link.url }}</li>
+            {%- for sub_link in link.links -%}
+              {%- if sub_link.active -%}
+                <li>{{ sub_link.title }}</li>
+                {%- elsif sub_link.links != blank -%}
+                    {%- for grandchild_link in sub_link.links -%} 
+                      {%- if grandchild_link.active -%}
+                      <li>{{ grandchild_link.title }}</li>
+                      {%- endif -%}
+                    {%- endfor -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if active != true -%}
+        <li>{{ page_title }}</li>
+      {%- endif -%}
+    {%- elsif template contains 'product' -%}
+      {%- if collection.url -%}
+        <li>{{ 'collections.general.products' | t | link_to: 'javascript:void(0);' }}</li>
+        <li>{{ collection.title | link_to: collection.url }}</li>
+      {%- else -%}
+        {%- capture menu_links -%}
+          {%- for link in linklists.main-menu.links -%}
+            {{ link.url | split: '/' | last }},
+            {%- if link.links != blank -%}
+              {%- for child_link in link.links -%}
+                {{ child_link.url | split: '/' | last }},
+                {%- if child_link.links != blank -%}
+                  {%- for grandchild_link in child_link.links -%}
+                    {{ grandchild_link.url | split: '/' | last }},
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- assign menu_links = menu_links | strip | split: ',' -%}
+        {% for collection in product.collections %}
+          {% if menu_links contains collection.handle %}
+            {%- assign collection_item = collection -%}
+            {%- break -%}
+          {%- endif -%}
+        {% endfor %}
+        {%- assign all_link = '/collection/all' -%}
+        {%- if collection_item != blank -%}
+          {%- assign all_link = 'javascript:void(0);' -%}
+        {%- endif -%}
+        <li>{{ 'Product'  | link_to: all_link }}</li>
+        {%- if collection_item != blank -%}
+          <li>{{ collection_item.title | link_to: collection_item.url }}</li>
+        {%- endif -%}
+      {%- endif -%}
+      <li>{{ product.title }}</li>
+    {%- elsif template contains 'collection' and collection.handle -%}
+      {%- if current_tags -%}
+        {%- capture url -%}/collections/{{ collection.handle }}{%- endcapture -%}
+        <li>{{ collection.title | link_to: url }}</li>
+        <li>{{ current_tags | join: " + " }}</li>
+      {%- else -%}
+        <li>{{ collection.title }}</li>
+      {%- endif -%}
+    {%- elsif template == 'blog' -%}
+      {%- if current_tags -%}
+        <li>{{ blog.title | link_to: blog.url }}</li>
+        <li>{{ current_tags | join: " + " }}</li>
+      {%- else -%}
+        <li>{{ blog.title }}</li>
+      {%- endif -%}
+    {%- elsif template == 'article' -%}
+      <li>{{ blog.title | link_to: blog.url }}</li>
+      <li>{{ article.title }}</li>
+    {%- elsif template == 'cart' -%}
+      <li>{{ 'layout.cart.title' | t }}</li>
+    {%- elsif template == 'search' -%}
+      <li>{% comment %}{{ 'general.search.title' | t }}{% endcomment %}{{ 'templates.search.title' | t }}</li>
+    {%- endif -%}
+  </ul>
+  <!-- breadcrumb ends -->
+  </div>
+</div>
+<!-- breadcrumbs ends -->

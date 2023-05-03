@@ -1,0 +1,118 @@
+<div class="itg_custom_image_with_video_wrpr">
+  <div class="page-width">
+    {%  if section.settings.top_check != blank %}
+      <hr class="itg_hr_top">
+    {% endif %}
+    <div class="itg_heading">
+      {% if section.settings.heading != blank %}
+          <h1>{{ section.settings.heading }}</h1>
+      {% endif %}
+    </div>
+   <div class="itg_image_with_video">
+     <div class="itg_image_section">
+         {% if section.settings.img != blank %}
+           <a  class="itg_imge" href="{{ section.settings.img_url }}" target="_blank"><img src="{{ section.settings.img | img_url:'master' }}" alt="image"></a>
+         {% endif %}     
+
+         {% if section.settings.img_text !=blank %}
+         <div class="itg_text_content">
+           <a href="{{ section.settings.text_url }}" target="_blank"><span>{{ section.settings.img_text }}</span></a>
+         </div>
+        {% endif %} 
+     </div>
+    
+      <div class="itg_video_section">
+        {% if section.settings.video_url.id != blank %}
+          <div class="itg_frame_section">
+            <iframe  class="showframe" frameBorder="0" src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}"></iframe>
+          </div>
+            {% endif %}
+
+        {% if section.settings.video_text !=blank %}
+         <div class="itg_text_video_content">
+           <a href="{{ section.settings.video_link }}" target="_blank"><span>{{ section.settings.video_text }}</span></a>
+         </div>
+        {% endif %} 
+      </div>
+   </div>
+    {% if section.settings.bottom_check != blank %}
+      <hr class="itg_hr_bottom">
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Custom Image With Video",
+    "settings": [
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Heading"
+      },
+      {
+        "type":"image_picker",
+        "id":"img",
+        "label":"Image Select"
+      },
+      {
+        "type":"url",
+        "id":"img_url",
+        "label":"Image URL"
+      },
+      {
+        "type":"text",
+        "id":"img_text",
+        "label":"Image Text"
+      },
+      {
+        "type":"url",
+        "id":"text_url",
+        "label":"Text Url"
+      },
+      {
+        "type":"video_url",
+        "id":"video_url",
+        "label":"Select Video",
+        "accept": [
+              "youtube",
+              "vimeo"
+           ],
+       "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+      },
+      {
+        "type":"text",
+        "id":"video_text",
+        "label":"Video Text"
+      },
+      {
+        "type":"url",
+        "id":"video_link",
+        "label":"Video URL"
+      },
+      {
+        "type":"checkbox",
+        "id":"top_check",
+        "label":"Border Top",
+        "default":true
+      },
+      {
+        "type":"checkbox",
+        "id":"bottom_check",
+        "label":"Border Bottom",
+        "default":false
+      }
+      
+    ],
+    "presets":[
+      {
+        "name": "Custom Image With Video"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

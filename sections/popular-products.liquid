@@ -1,0 +1,179 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'template-collection.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- if section.settings.enable_quick_add -%}
+  <link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
+  <script src="{{ 'quick-add.js' | asset_url }}"></script>
+  <script src="{{ 'product-form.js' | asset_url }}"></script>
+{%- endif -%}
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'template-collection.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- if section.blocks.size > 0 -%}
+  <!-- popular-container begins -->
+  <section class="popular-container" data-section-id="{{ section.id }}" data-section-type="popular-products">
+    <!-- container begins -->
+    <div class="page-width">
+      <!-- popular-panel begins -->
+      <div class="popular-panel">
+        <!-- panel-title begins -->
+        <h3>{{ section.settings.title }}</h3>
+        <!-- panel-title ends -->
+        <!-- panel-content begins -->
+        <div class="owl-carousel popular-items list-items">
+          <ul id="Slider-{{ section.id }}" class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}" role="list" aria-label="{{ 'general.slider.name' | t }}">
+          {%- for block in section.blocks -%}
+            {%- assign product = all_products[block.settings.product] -%}
+            {%- if product != empty -%}
+              {%- assign variant_id = block.settings.variant_id -%}
+              {%- assign current_variant = false -%}
+              {%- if variant_id != blank -%}
+                {%- for variant in product.variants -%}
+                  {%- assign variant_id = variant_id | plus: 0 -%}
+                  {%- if variant.id == variant_id -%}
+                    {%- assign current_variant = variant -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+              {%- if current_variant == blank -%}
+                {%- assign current_variant = product.selected_or_first_available_variant -%}
+              {%- endif -%}
+              <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}">
+              {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: block.settings.image_ratio,
+              show_secondary_image: block.settings.show_secondary_image,
+              show_vendor: block.settings.show_vendor,
+              show_rating: block.settings.show_rating,
+              show_quick_add: block.settings.enable_quick_add,
+              section_id: block.id
+            %}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+          </ul>
+        </div>
+        <!-- panel-content ends -->
+        {%- if section.settings.body != blank -%}
+          <!-- popular-desc begins -->
+          <div class="popular-desc visible-md visible-lg">
+            <p>{{ section.settings.body }}</p>
+          </div>
+          <!-- popular-desc ends -->
+        {%- endif -%}
+      </div>
+      <!-- popular-panel ends -->
+    </div>
+    <!-- container ends -->
+  </section>
+  <!-- popular-container ends -->
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Popular products",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Block title"
+      },
+      {
+        "type": "richtext",
+        "id": "body",
+        "label":"Body"
+      }     
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "variant_id",
+            "label": "Variant ID"
+          },
+          {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_rating.label",
+      "info": "t:sections.featured-collection.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.enable_quick_buy.label"
+    }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Popular products",
+        "category": "Product",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

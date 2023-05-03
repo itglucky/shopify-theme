@@ -1,0 +1,93 @@
+{%- capture br -%}<br />{%- endcapture -%}
+{%- if show_specs -%}
+  <table>
+    <thead>
+      <tr>
+        <th width="12%">{{ 'products.product.specifications.part_number_html' | t: br: br }}</th>
+        {%- if show_inlet -%}<th width="12%">{{ 'products.product.specifications.inlet_connection_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_min_compressor -%}<th width="15%">{{ 'products.product.specifications.min_compressor_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_soil_excavation -%}<th width="15%">{{ 'products.product.specifications.soil_excavation_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_vacuum_hose -%}<th width="14%">{{ 'products.product.specifications.vacuum_hose_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_noise_level -%}<th width="13%">{{ 'products.product.specifications.noise_level_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_vacuum_flow -%}<th width="10%">{{ 'products.product.specifications.vacuum_flow_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_vacuum_lift -%}<th width="10%">{{ 'products.product.specifications.vacuum_lift_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_dimensions -%}<th width="15%">{{ 'products.product.specifications.dimension_html' | t: br: br }}</th>{%- endif -%}
+        {%- if show_weight -%}<th width="10%">{{ 'products.product.specifications.weight_html' | t: br: br }}</th>{%- endif -%}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for tvariant in product.variants -%}
+        <tr>
+          <td>
+            <span class="td-title">{{ 'products.product.specifications.part_number_html' | t: br: br }}</span>
+            <span class="td-value">{{ tvariant.sku }}</span>
+          </td>
+          {%- if show_inlet -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.inlet_connection_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Inlet-Connection'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_min_compressor -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.min_compressor_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Min-Compressor-Required'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_soil_excavation -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.soil_excavation_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Soil-Excavation-Rate'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_vacuum_hose -%}
+          <td>
+            <span class="td-title">{{ 'products.product.specifications.vacuum_hose_html' | t: br: br }}</span>
+            <span class="td-value">{{ tvariant.metafields['global']['Vacuum-Hose-ID'] }}</span>
+          </td>
+          {%- endif -%}
+          {%- if show_noise_level -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.noise_level_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Noise-Level'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_vacuum_flow -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.vacuum_flow_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Vacuum-Flow'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_vacuum_lift -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.vacuum_lift_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Vacuum-Lift'] }}</span>
+            </td>
+          {%- endif -%}
+          {%- if show_dimensions -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.dimension_html' | t: br: br }}</span>
+              <span class="td-value">
+                {% if tvariant.metafields['global']['Each-Length'] != blank %}
+                  {{ tvariant.metafields['global']['Each-Length'] }} x
+                {% endif %}
+                {% if tvariant.metafields['global']['Each-Width'] != blank %}
+                  {{ tvariant.metafields['global']['Each-Width'] }} x 
+                {% endif -%}
+                {% if tvariant.metafields['global']['Each-Height'] %}
+                  {{ tvariant.metafields['global']['Each-Height'] }}
+                {% endif %}
+              </span>
+            </td>
+          {%- endif -%}
+          {%- if show_weight -%}
+            <td>
+              <span class="td-title">{{ 'products.product.specifications.weight_html' | t: br: br }}</span>
+              <span class="td-value">{{ tvariant.metafields['global']['Each-Weight'] }}</span>
+            </td>
+          {%- endif -%}
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{%- endif -%}

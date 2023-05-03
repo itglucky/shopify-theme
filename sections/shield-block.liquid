@@ -1,0 +1,74 @@
+{%- if section.blocks.size > 0 -%}
+  <!-- support-container begins -->
+  <section class="support-container" data-section-id="{{ section.id }}" data-section-type="shield-block">
+    <!-- container begins -->
+    <div class="page-width">
+      <div class="row">
+        {%- for block in section.blocks -%}
+          <div class="col-sm-12">
+            <!-- support-box begins -->
+            <div class="support-box">
+              <!-- box-title begins -->
+              <div class="box-title"><h3>{{ block.settings.title }}</h3></div>
+              <!-- box-title begins -->
+              <!-- box-desc begins -->
+              <div class="box-desc">{{ block.settings.body }}</div>
+              <!-- box-desc ends -->
+              <!-- box-links begins -->
+              <div class="box-links">
+                {{ block.settings.links }}
+              </div>
+              <!-- box-links ends -->
+            </div>
+            <!-- support-box ends -->
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    <!-- container ends -->
+  </section>
+  <!-- support-container ends -->
+{%- endif -%}
+{% schema %}
+  {
+    "name": "Shield block",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "shield_block",
+        "name": "Shield block",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Legendary Support"
+          },
+          {
+            "type": "richtext",
+            "id": "body",
+            "label": "Body",
+            "default": "<p>Learn how AirSpade saves time and helps you deliver the best results from your work.</p>"
+          },
+          {
+            "type": "richtext",
+            "id": "links",
+            "label": "Quick Links"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Shield block",
+        "category": "Information",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "shield_block"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

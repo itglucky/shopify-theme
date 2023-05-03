@@ -1,0 +1,42 @@
+<div class="itg_contact_page_wrapper">
+<div class="page-width">
+<div class="itg_image_with_text">
+  {% if section.settings.img_picker != blank %}
+    <div class="itg_img_box">
+      <img src="{{ section.settings.img_picker | img_url:'master' }}" alt="image">
+    </div>
+   <div class="itg_content_box">
+     {{ section.settings.content }}
+   </div>
+  {% endif %}
+</div>
+</div>
+</div>
+{% schema %}
+  {
+    "name": "Custom Image With Text",
+    "settings": [
+      {
+        "type":"image_picker",
+        "id":"img_picker",
+        "label":"Image"
+      },
+      {
+        "type":"richtext",
+        "id":"content",
+        "label":"Content"
+      }
+    ],
+    "presets":[
+      {
+        "name":"Custom Image With Text"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,156 @@
+
+
+
+  <div class="tabs">
+  <ul id="tabs-nav"> 
+    {%- for variant in product.variants limit:1 -%}
+      {% if variant.metafields.custom.featured.value != blank %}
+      <li><a href="#tab1">Features</a></li>
+      {% endif %}
+    {% endfor %}
+    {%- for variant in product.variants limit:1 -%}
+      {% if variant.metafields.custom.includes.value != blank %}
+      <li><a href="#tab2">Includes</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if product.metafields.custom.product_specifications.value != blank %}
+    <li><a href="#tab3">Specifications</a></li>
+    {% endif %}
+    {% if product.metafields.custom.product_literature.value != blank %}
+      <li><a href="#tab4">Literature</a></li>
+    {% endif %}
+    {% if product.metafields.custom.replacement_parts.value != blank %}
+      <li><a href="#tab5">Replacement Parts</a></li>
+    {% endif %}    
+      <li><a href="#tab6">Review</a></li>
+    {% if product.metafields.custom.warning65.value != blank %}
+      <li><a href="#tab7">Prop. 65 Warning</a></li>
+    {% endif %}  
+  </ul> <!-- END tabs-nav -->
+    <div class="itg_variant_data hide">   
+    {%- for variant in product.variants  -%}
+      {% if variant.metafields.custom.featured.value != blank %}
+    <div id="data_1" class="itg_tab_data" data="{{variant.sku}}">
+      <ul>
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+       
+      
+              {% for text in variant.metafields.custom.featured.value  %}
+               <li> {{ text }}</li>
+              {% endfor %}
+          
+         
+          
+     
+      </ul>
+     {% comment %} {% for text in varinat_featured %}
+          <li>
+            {{ text }}
+          </li>
+        {% endfor %}{% endcomment %}
+    </div>
+      {% endif %}
+    {% endfor %}
+    {%- for variant in product.variants  -%}
+      {% if variant.metafields.custom.includes.value != blank %}
+    <div id="data_2" class="itg_tab_data" data="{{variant.sku}}">
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
+     
+        
+              {% for text in variant.metafields.custom.includes.value  %}
+               <li> {{ text }}</li>
+              {% endfor %}          
+      
+      {% comment %}<ul>
+        {% for text in product.metafields.custom.includes.value %}
+          <li>
+            {{ text }}
+          </li>
+        {% endfor %}
+      </ul>{% endcomment %}
+    </div>
+    {% endif %}
+      {% endfor %}
+      </div>
+  <div id="tabs-content">
+    
+    {%- for variant in product.variants limit:1 -%}
+      {% if variant.metafields.custom.featured.value != blank %}
+    <div id="tab1" class="tab-content tab1" data="{{variant.sku}}">
+      <ul>
+        {%- assign current_variant = product.selected_or_first_available_variant -%}
+        {%- for variant in product.variants -%}
+          {% if current_variant.title == variant.title %}
+              {% for text in variant.metafields.custom.featured.value  %}
+               <li> {{ text }}</li>
+              {% endfor %}
+          
+          {% endif %}
+          
+        {% endfor %}        
+      </ul>
+     {% comment %} {% for text in varinat_featured %}
+          <li>
+            {{ text }}
+          </li>
+        {% endfor %}{% endcomment %}
+    </div>
+      {% endif %}
+    {% endfor %}
+    {%- for variant in product.variants limit:1 -%}
+      {% if variant.metafields.custom.includes.value != blank %}
+    <div id="tab2" class="tab-content tab2" data="{{variant.sku}}">
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
+        {%- for variant in product.variants -%}
+          {% if current_variant.title == variant.title %}
+              {% for text in variant.metafields.custom.includes.value  %}
+               <li> {{ text }}</li>
+              {% endfor %}          
+          {% endif %}          
+        {% endfor %}  
+      {% comment %}<ul>
+        {% for text in product.metafields.custom.includes.value %}
+          <li>
+            {{ text }}
+          </li>
+        {% endfor %}
+      </ul>{% endcomment %}
+    </div>
+    {% endif %}
+      {% endfor %}
+    {% if product.metafields.custom.product_specifications.value != blank %}
+    <div id="tab3" class="tab-content">
+      {{ product.metafields.custom.product_specifications.value }}
+      
+    </div>
+    {% endif %}
+    {% if product.metafields.custom.product_literature.value != blank %}
+    <div id="tab4" class="tab-content">
+      {{ product.metafields.custom.product_literature.value }}
+      
+    </div>
+    {% endif %}
+    {% if product.metafields.custom.replacement_parts.value != blank %}
+    <div id="tab5" class="tab-content">
+      <ul>
+        {% assign slider = product.metafields.custom.replacement_parts.value %} 
+        {% for product in slider %}
+          <li>
+            <a href="{{ product.url }}" target="_blank">{{ product.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    <div id="tab6" class="tab-content">
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+      <div></div>
+    </div>
+    {% if product.metafields.custom.warning65.value != blank %}
+    <div id="tab7" class="tab-content">
+      {{ product.metafields.custom.warning65 }}
+    </div>
+    {% endif %}
+    </div>
+  </div> <!-- END tabs-content -->
+</div> <!-- END tabs -->
